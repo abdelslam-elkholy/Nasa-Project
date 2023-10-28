@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon --prefix Server src/server.js",
+    "server": "cd Server && nodemon src/server.js",
     "client": "cd Client && npm start",
     "watch": "npm run server & npm run client",
     "test": "echo \"Error: no test specified\" && exit 1"

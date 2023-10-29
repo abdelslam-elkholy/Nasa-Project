@@ -1,5 +1,5 @@
 const launches = new Map();
-
+let flightNumber = 100;
 const launch = {
   flightNumber: 100,
   rocket: "Explorer IS1",
@@ -8,6 +8,7 @@ const launch = {
   customer: ["ZTM", "NASA"],
   upcoming: true,
   success: true,
+  destination: "Kepler-422 b",
 };
 
 launches.set(launch.flightNumber, launch);
@@ -15,4 +16,18 @@ launches.set(launch.flightNumber, launch);
 const getAllLaunches = () => {
   return Array.from(launches.values());
 };
-module.exports = { getAllLaunches };
+
+const createLaunch = (launch) => {
+  flightNumber++;
+  launches.set(
+    flightNumber,
+    Object.assign(launch, {
+      flightNumber,
+      customer: ["ZTM", "NASA"],
+      upcoming: true,
+      success: true,
+    })
+  );
+};
+
+module.exports = { getAllLaunches, createLaunch };

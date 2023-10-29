@@ -4,11 +4,11 @@ const httpGetAllLaunches = (req, res) => {
   res.status(200).json(getAllLaunches());
 };
 
-const httpCreateLauncher = (req, res) => {
+const httpCreateLaunche = (req, res) => {
   const launch = req.body;
   launch.launchDate = new Date(launch.launchDate);
 
   createLaunch(launch);
 };
 
-module.exports = { httpGetAllLaunches, httpCreateLauncher };
+module.exports = { httpGetAllLaunches, httpCreateLaunche };

@@ -1,7 +1,7 @@
 const { getAllLaunches, createLaunch } = require("../../models/launches.model");
 
 const httpGetAllLaunches = (req, res) => {
-  res.status(200).json(getAllLaunches());
+  return res.status(200).json(getAllLaunches());
 };
 
 const httpCreateLaunche = (req, res) => {
@@ -9,6 +9,7 @@ const httpCreateLaunche = (req, res) => {
   launch.launchDate = new Date(launch.launchDate);
 
   createLaunch(launch);
+  return res.status(201).json(launch);
 };
 
 module.exports = { httpGetAllLaunches, httpCreateLaunche };

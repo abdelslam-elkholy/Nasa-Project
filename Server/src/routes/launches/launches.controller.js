@@ -10,7 +10,7 @@ const httpCreateLaunche = (req, res) => {
     !launch.launchDate ||
     !launch.rocket ||
     !launch.misions ||
-    !launch.destination
+    !launch.target
   ) {
     res.status(404).json({
       error: "Invalid launch INPUTS",

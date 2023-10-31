@@ -8,7 +8,7 @@ const launch = {
   customer: ["ZTM", "NASA"],
   upcoming: true,
   success: true,
-  destination: "Kepler-422 b",
+  target: "Kepler-422 b",
 };
 
 launches.set(launch.flightNumber, launch);

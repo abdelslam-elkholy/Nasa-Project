@@ -6,6 +6,7 @@ const {
   httpCreateLaunche,
 } = require("./launches.controller");
 
-launchesRouter.route("/").get(httpGetAllLaunches).post(httpCreateLaunche);
+launchesRouter.get("/", httpGetAllLaunches);
+launchesRouter.post("/", httpCreateLaunche);
 
 module.exports = launchesRouter;

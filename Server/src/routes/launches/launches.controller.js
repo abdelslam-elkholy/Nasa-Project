@@ -5,14 +5,15 @@ const httpGetAllLaunches = (req, res) => {
 };
 
 const httpCreateLaunche = (req, res) => {
+  console.log(req.body);
   const launch = req.body;
   if (
     !launch.launchDate ||
     !launch.rocket ||
-    !launch.misions ||
+    !launch.mission ||
     !launch.target
   ) {
-    res.status(404).json({
+    return res.status(400).json({
       error: "Invalid launch INPUTS",
     });
   }
@@ -20,7 +21,7 @@ const httpCreateLaunche = (req, res) => {
   launch.launchDate = new Date(launch.launchDate);
 
   if (isNaN(launch.launchDate)) {
-    res.status(404).json({ error: "Invalid launch Date" });
+    return res.status(400).json({ error: "Invalid launch Date" });
   }
 
   createLaunch(launch);

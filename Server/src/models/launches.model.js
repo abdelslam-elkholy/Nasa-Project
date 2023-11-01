@@ -18,7 +18,7 @@ const getAllLaunches = () => {
 };
 
 const existLaunchWithId = (id) => {
-  return launch.has(id);
+  return launches.has(id);
 };
 
 const createLaunch = (launch) => {
@@ -34,5 +34,18 @@ const createLaunch = (launch) => {
   );
 };
 
-// const abortLaunch = (id) => {
-module.exports = { getAllLaunches, existLaunchWithId ,createLaunch ,  };
+const abortLaunchById = (id) => {
+  const aborted = launches.get(id);
+
+  aborted.upcoming = false;
+  aborted.success = false;
+
+  return aborted;
+};
+
+module.exports = {
+  getAllLaunches,
+  createLaunch,
+  existLaunchWithId,
+  abortLaunchById,
+};

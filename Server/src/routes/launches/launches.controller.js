@@ -1,4 +1,9 @@
-const { getAllLaunches, createLaunch } = require("../../models/launches.model");
+const {
+  getAllLaunches,
+  createLaunch,
+  existLaunchWithId,
+  abortLaunchById,
+} = require("../../models/launches.model");
 
 const httpGetAllLaunches = (req, res) => {
   return res.status(200).json(getAllLaunches());
@@ -28,4 +33,14 @@ const httpCreateLaunche = (req, res) => {
   return res.status(201).json(launch);
 };
 
-module.exports = { httpGetAllLaunches, httpCreateLaunche };
+const httpAbortLaunche = (req, res) => {
+  const launchId = req.params.id * 1;
+
+  if (!existLaunchWithId(launchId)) {
+    return res.status(404).json({ error: "Launch not found" });
+  }
+
+  const aborted = abortLaunchById(id);
+  return res.status(200).json(aborted);
+};
+module.exports = { httpGetAllLaunches, httpCreateLaunche, httpAbortLaunche };

@@ -17,6 +17,10 @@ const getAllLaunches = () => {
   return Array.from(launches.values());
 };
 
+const existLaunchWithId = (id) => {
+  return launch.has(id);
+};
+
 const createLaunch = (launch) => {
   flightNumber++;
   launches.set(
@@ -30,4 +34,5 @@ const createLaunch = (launch) => {
   );
 };
 
-module.exports = { getAllLaunches, createLaunch };
+// const abortLaunch = (id) => {
+module.exports = { getAllLaunches, existLaunchWithId ,createLaunch ,  };

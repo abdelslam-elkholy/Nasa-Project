@@ -8,16 +8,33 @@ describe("Test Get /Launches", () => {
 });
 
 describe("Test Post / Launches", () => {
+  const completeLaunchData = {
+    mission: "USS Enterprise",
+    rocket: "NCC 1701-D",
+    target: "Kepler-186 f",
+    launchDate: "January , 4 , 2028 ",
+  };
+
+  const launchDataWithoutDate = {
+    mission: "USS Enterprise",
+    rocket: "NCC 1701-D",
+    target: "Kepler-186 f",
+    launchDate: "January , 4 , 2028 ",
+  };
+
   test("It Should response with 201 success", async () => {
     const response = await request(app)
       .post("/launches")
-      .send({
-        mission: "USS Enterprise",
-        rocket: "NCC 1701-D",
-        target: "Kepler-186 f",
-        launchDate: "January , 4 , 2028 ",
-      })
-      .expect(201);
+      .send(completeLaunchData)
+      .expect(201)
+      .expect("Content-Type", /json/);
+
+    const requestDate = new Date(completeLaunchData.launchDate).valueOf();
+    const responseDate = new Date(response.body.launchDate).valueOf();
+
+    expect(responseDate).toBe(requestDate);
+
+    // expect(responseDate).toMatchObject(launchDataWithoutDate);
   });
 
   test("It Should catch missing required", () => {});

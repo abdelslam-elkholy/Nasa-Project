@@ -16,6 +16,9 @@
     "test": "jest",
     "test-watch": "jest --watch"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "author": "",
   "license": "ISC",
   "description": "",

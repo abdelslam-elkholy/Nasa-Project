@@ -35,6 +35,11 @@ const saveLaunch = async (launch) => {
 
 saveLaunch(launch);
 
+const getlatestFlightNumber = async () => {
+  const latestLaunch = await launchesDataBase.findOne().sort("-flightNumber");
+  return latestLaunch.flightNumber || 100;
+};
+
 const createLaunch = (launch) => {
   flightNumber++;
   launches.set(

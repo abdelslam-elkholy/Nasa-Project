@@ -40,17 +40,29 @@ const getlatestFlightNumber = async () => {
   return latestLaunch.flightNumber || 100;
 };
 
-const createLaunch = (launch) => {
-  flightNumber++;
-  launches.set(
-    flightNumber,
-    Object.assign(launch, {
-      flightNumber,
-      customers: ["ZTM", "NASA"],
-      upcoming: true,
-      success: true,
-    })
-  );
+// const createLaunch = (launch) => {
+//   flightNumber++;
+//   launches.set(
+//     flightNumber,
+//     Object.assign(launch, {
+//       flightNumber,
+//       customers: ["ZTM", "NASA"],
+//       upcoming: true,
+//       success: true,
+//     })
+//   );
+// };
+
+const scheduleLaunch = async (launch) => {
+  const newLaunch = {
+    ...launch,
+    customers: ["ZTM", "NASA"],
+    upcoming: true,
+    success: true,
+    flightNumber: (await getlatestFlightNumber()) + 1,
+  };
+
+  await saveLaunch(newLaunch);
 };
 
 const abortLaunchById = (id) => {
@@ -64,7 +76,7 @@ const abortLaunchById = (id) => {
 
 module.exports = {
   getAllLaunches,
-  createLaunch,
+  scheduleLaunch,
   existLaunchWithId,
   abortLaunchById,
 };

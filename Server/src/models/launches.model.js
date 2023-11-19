@@ -1,7 +1,9 @@
 const launchesDataBase = require("./launches.mongo");
+const planets = require("./planets.mongo");
 
-const launches = new Map();
-let flightNumber = 100;
+// const launches = new Map();
+// let flightNumber = 100;
+
 const launch = {
   flightNumber: 100,
   rocket: "Explorer IS1",
@@ -10,20 +12,28 @@ const launch = {
   customers: ["ZTM", "NASA"],
   upcoming: true,
   success: true,
-  target: "Kepler-422 b",
+  target: "Kepler-442 b",
 };
 
-launches.set(launch.flightNumber, launch);
+// launches.set(launch.flightNumber, launch);
 
 const getAllLaunches = async () => {
-  await launchesDataBase.find({}, { _id: 0, __v: 0 });
+  return await launchesDataBase.find({}, { _id: 0, __v: 0 });
 };
 
-const existLaunchWithId = (id) => {
-  return launches.has(id);
+const existLaunchWithId = async (id) => {
+  return await launchesDataBase.findOne({ flightNumber: id });
 };
 
 const saveLaunch = async (launch) => {
+  const planet = await planets.findOne({
+    keplerName: launch.target,
+  });
+
+  if (!planet) {
+    throw new Error("no matching planet Found");
+  }
+
   await launchesDataBase.updateOne(
     {
       flightNumber: launch.flightNumber,
@@ -65,13 +75,24 @@ const scheduleLaunch = async (launch) => {
   await saveLaunch(newLaunch);
 };
 
-const abortLaunchById = (id) => {
-  const aborted = launches.get(id);
+const abortLaunchById = async (id) => {
+  // const aborted = launches.get(id);
 
-  aborted.upcoming = false;
-  aborted.success = false;
+  // aborted.upcoming = false;
+  // aborted.success = false;
 
-  return aborted;
+  // return aborted;
+
+  const aborted = await launchesDataBase.updateOne(
+    {
+      flightNumber: id,
+    },
+    {
+      upcoming: false,
+      success: false,
+    }
+  );
+  return aborted.modifiedCount === 1;
 };
 
 module.exports = {

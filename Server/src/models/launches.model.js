@@ -1,4 +1,4 @@
-const launchesDataBase = require("launches.mongo");
+const launchesDataBase = require("./launches.mongo");
 
 const launches = new Map();
 let flightNumber = 100;
@@ -24,7 +24,7 @@ const existLaunchWithId = (id) => {
 };
 
 const saveLaunch = async (launch) => {
-  await launchesDataBase.updateone(
+  await launchesDataBase.updateOne(
     {
       flightNumber: launch.flightNumber,
     },

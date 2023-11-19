@@ -1,4 +1,4 @@
-const launches = require("launches.mongo");
+const launchesDataBase = require("launches.mongo");
 
 const launches = new Map();
 let flightNumber = 100;
@@ -15,13 +15,25 @@ const launch = {
 
 launches.set(launch.flightNumber, launch);
 
-const getAllLaunches = () => {
-  return Array.from(launches.values());
+const getAllLaunches = async () => {
+  await launchesDataBase.find({}, { _id: 0, __v: 0 });
 };
 
 const existLaunchWithId = (id) => {
   return launches.has(id);
 };
+
+const saveLaunch = async (launch) => {
+  await launchesDataBase.updateone(
+    {
+      flightNumber: launch.flightNumber,
+    },
+    launch,
+    { upsert: true }
+  );
+};
+
+saveLaunch(launch);
 
 const createLaunch = (launch) => {
   flightNumber++;

@@ -19,7 +19,6 @@ describe("Test Post / Launches", () => {
     mission: "USS Enterprise",
     rocket: "NCC 1701-D",
     target: "Kepler-186 f",
-    launchDate: "January , 4 , 2028 ",
   };
 
   test("It Should response with 201 success", async () => {
@@ -37,6 +36,16 @@ describe("Test Post / Launches", () => {
     // expect(responseDate).toMatchObject(launchDataWithoutDate);
   });
 
-  test("It Should catch missing required", () => {});
+  test("It Should catch missing required", async () => {
+    const response = await request(app)
+      .post("/launches")
+      .send(launchDataWithoutDate)
+      .expect("Content-Type", /json/)
+      .expect(400);
+
+    expect(response.body).toStrictEqual({
+      error: "Invalid launch INPUTS",
+    });
+  });
   test("It Should catch missing invalid dates", () => {});
 });

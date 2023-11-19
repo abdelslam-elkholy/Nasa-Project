@@ -47,5 +47,15 @@ describe("Test Post / Launches", () => {
       error: "Invalid launch INPUTS",
     });
   });
-  test("It Should catch missing invalid dates", () => {});
+  test("It Should catch missing invalid dates", async () => {
+    const response = await request(app)
+      .post("/launches")
+      .send({ ...launchDataWithoutDate, launchDate: "jjj" })
+      .expect("Content-Type", /json/)
+      .expect(400);
+
+    expect(response.body).toStrictEqual({
+      error: "Invalid launch Date",
+    });
+  });
 });

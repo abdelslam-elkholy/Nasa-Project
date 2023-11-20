@@ -10,7 +10,7 @@ beforeAll(async () => {
 
 describe("Test Get /Launches", () => {
   test("It Should response with 200 success", async () => {
-    const response = await request(app).get("/launches").expect(200);
+    const response = await request(app).get("/v1/launches").expect(200);
   });
 });
 
@@ -30,7 +30,7 @@ describe("Test Post / Launches", () => {
 
   test("It Should response with 201 success", async () => {
     const response = await request(app)
-      .post("/launches")
+      .post("/v1/launches")
       .send(completeLaunchData)
       .expect(201)
       .expect("Content-Type", /json/);
@@ -45,7 +45,7 @@ describe("Test Post / Launches", () => {
 
   test("It Should catch missing required", async () => {
     const response = await request(app)
-      .post("/launches")
+      .post("/v1/launches")
       .send(launchDataWithoutDate)
       .expect("Content-Type", /json/)
       .expect(400);
@@ -56,7 +56,7 @@ describe("Test Post / Launches", () => {
   });
   test("It Should catch missing invalid dates", async () => {
     const response = await request(app)
-      .post("/launches")
+      .post("/v1/launches")
       .send({ ...launchDataWithoutDate, launchDate: "jjj" })
       .expect("Content-Type", /json/)
       .expect(400);

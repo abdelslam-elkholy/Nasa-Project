@@ -22,15 +22,27 @@ const getAllLaunches = async () => {
 };
 
 const existLaunchWithId = async (id) => {
-  return await launchesDataBase.findOne({ flightNumber: id });
+  return await findLaunch({ flightNumber: id });
 };
 
 const SPACEX_API_URL = "https://api.spacexdata.com/v4/launches/query";
 
 const loadLaunches = async () => {
+  const firstLaunch = await findLaunch({
+    flightNumber: 1,
+    rocket: "Falcon 1",
+    mission: "FalconSat",
+  });
+
+  if (firstLaunch) {
+    console.log("Launches Already Loadded");
+    return;
+  }
+
   const response = await axios.post(SPACEX_API_URL, {
     query: {},
     options: {
+      pagination: false,
       populate: [
         {
           path: "rocket",
@@ -47,8 +59,26 @@ const loadLaunches = async () => {
       ],
     },
   });
+
+  const launchData = response.data.docs;
+  for (const launchDoc of launchData) {
+    const payloads = launchDoc.payloads;
+    const customers = payloads.flatMap((payload) => payload.customers);
+    const launch = {
+      flightNumber: launchDoc.flight_number,
+      mission: launchDoc.name,
+      rocket: launchDoc.rocket.name,
+      launchData: launchDoc.date_local,
+      upcoming: launchDoc.upcoming,
+      success: launchDoc.success,
+      customers,
+    };
+  }
 };
 
+const findLaunch = async (filter) => {
+  return await launchesDataBase.findOne(filter);
+};
 const saveLaunch = async (launch) => {
   const planet = await planets.findOne({
     keplerName: launch.target,

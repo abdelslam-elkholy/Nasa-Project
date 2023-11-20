@@ -50,6 +50,11 @@ const populateLaunches = async () => {
     },
   });
 
+  if (response.status !== 200) {
+    console.log("Problem Downloading Launches Data ....");
+    throw new Error("Launch Data Error: " + response.status);
+  }
+
   const launchData = response.data.docs;
   for (const launchDoc of launchData) {
     const payloads = launchDoc.payloads;

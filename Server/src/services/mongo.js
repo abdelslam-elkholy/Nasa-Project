@@ -10,4 +10,8 @@ const mongoConnect = async () => {
     .catch((error) => console.log("There was an error: ", error));
 };
 
-module.exports = { mongoConnect };
+const mongoDisconnect = async () => {
+  await mongoose.disconnect();
+};
+
+module.exports = { mongoConnect, mongoDisconnect };

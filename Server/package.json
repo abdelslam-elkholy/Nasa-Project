@@ -13,7 +13,7 @@
   "scripts": {
     "start": "node src/server.js",
     "cluster": "pm2 start src/server.js -i max",
-    "test": "jest",
+    "test": "jest  --detectOpenHandles",
     "test-watch": "jest --watch"
   },
   "jest": {

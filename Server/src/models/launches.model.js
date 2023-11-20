@@ -15,8 +15,6 @@ const launch = {
   target: "Kepler-442 b",
 };
 
-// launches.set(launch.flightNumber, launch);
-
 const getAllLaunches = async () => {
   return await launchesDataBase.find({}, { _id: 0, __v: 0 });
 };
@@ -50,19 +48,6 @@ const getlatestFlightNumber = async () => {
   return latestLaunch.flightNumber || 100;
 };
 
-// const createLaunch = (launch) => {
-//   flightNumber++;
-//   launches.set(
-//     flightNumber,
-//     Object.assign(launch, {
-//       flightNumber,
-//       customers: ["ZTM", "NASA"],
-//       upcoming: true,
-//       success: true,
-//     })
-//   );
-// };
-
 const scheduleLaunch = async (launch) => {
   const newLaunch = {
     ...launch,
@@ -76,13 +61,6 @@ const scheduleLaunch = async (launch) => {
 };
 
 const abortLaunchById = async (id) => {
-  // const aborted = launches.get(id);
-
-  // aborted.upcoming = false;
-  // aborted.success = false;
-
-  // return aborted;
-
   const aborted = await launchesDataBase.updateOne(
     {
       flightNumber: id,

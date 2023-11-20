@@ -1,11 +1,11 @@
 const request = require("supertest");
 const app = require("../../app");
 
-const { mongoConnect } = require("../../services/mongo");
-describe("Launches API", () => {
-  beforeAll(async () => {
-    await mongoConnect();
-  });
+const { mongoConnect, mongoDisconnect } = require("../../services/mongo");
+
+// describe("Launches API", () => {});
+beforeAll(async () => {
+  await mongoConnect();
 });
 
 describe("Test Get /Launches", () => {
@@ -18,7 +18,7 @@ describe("Test Post / Launches", () => {
   const completeLaunchData = {
     mission: "USS Enterprise",
     rocket: "NCC 1701-D",
-    target: "Kepler-186 f",
+    target: "Kepler-442 b",
     launchDate: "January , 4 , 2028 ",
   };
 

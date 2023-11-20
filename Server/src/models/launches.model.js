@@ -63,6 +63,8 @@ const populateLaunches = async () => {
       success: launchDoc.success,
       customers,
     };
+
+    await saveLaunch(launch);
   }
 };
 
@@ -84,14 +86,6 @@ const findLaunch = async (filter) => {
   return await launchesDataBase.findOne(filter);
 };
 const saveLaunch = async (launch) => {
-  const planet = await planets.findOne({
-    keplerName: launch.target,
-  });
-
-  if (!planet) {
-    throw new Error("no matching planet Found");
-  }
-
   await launchesDataBase.updateOne(
     {
       flightNumber: launch.flightNumber,
@@ -109,6 +103,13 @@ const getlatestFlightNumber = async () => {
 };
 
 const scheduleLaunch = async (launch) => {
+  const planet = await planets.findOne({
+    keplerName: launch.target,
+  });
+
+  if (!planet) {
+    throw new Error("no matching planet Found");
+  }
   const newLaunch = {
     ...launch,
     customers: ["ZTM", "NASA"],

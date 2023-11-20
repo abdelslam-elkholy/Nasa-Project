@@ -27,18 +27,8 @@ const existLaunchWithId = async (id) => {
 
 const SPACEX_API_URL = "https://api.spacexdata.com/v4/launches/query";
 
-const loadLaunches = async () => {
-  const firstLaunch = await findLaunch({
-    flightNumber: 1,
-    rocket: "Falcon 1",
-    mission: "FalconSat",
-  });
-
-  if (firstLaunch) {
-    console.log("Launches Already Loadded");
-    return;
-  }
-
+const populateLaunches = async () => {
+  console.log("Downloading Launches Data ....");
   const response = await axios.post(SPACEX_API_URL, {
     query: {},
     options: {
@@ -73,6 +63,20 @@ const loadLaunches = async () => {
       success: launchDoc.success,
       customers,
     };
+  }
+};
+
+const loadLaunches = async () => {
+  const firstLaunch = await findLaunch({
+    flightNumber: 1,
+    rocket: "Falcon 1",
+    mission: "FalconSat",
+  });
+
+  if (firstLaunch) {
+    console.log("Launches Already Loadded");
+  } else {
+    populateLaunches();
   }
 };
 
@@ -134,4 +138,5 @@ module.exports = {
   scheduleLaunch,
   existLaunchWithId,
   abortLaunchById,
+  loadLaunches,
 };

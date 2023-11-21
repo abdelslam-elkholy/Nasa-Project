@@ -17,8 +17,12 @@ const launch = {
   target: "Kepler-442 b",
 };
 
-const getAllLaunches = async () => {
-  return await launchesDataBase.find({}, { _id: 0, __v: 0 });
+const getAllLaunches = async (skip, limit) => {
+  return await launchesDataBase
+    .find({}, { _id: 0, __v: 0 })
+    .sort({ flightNumber: 1 })
+    .skip(skip)
+    .limit(limit);
 };
 
 const existLaunchWithId = async (id) => {
@@ -54,7 +58,6 @@ const populateLaunches = async () => {
     console.log("Problem Downloading Launches Data ....");
     throw new Error("Launch Data Error: " + response.status);
   }
-
   const launchData = response.data.docs;
   for (const launchDoc of launchData) {
     const payloads = launchDoc.payloads;
@@ -63,7 +66,7 @@ const populateLaunches = async () => {
       flightNumber: launchDoc.flight_number,
       mission: launchDoc.name,
       rocket: launchDoc.rocket.name,
-      launchData: launchDoc.date_local,
+      launchDate: launchDoc.date_local,
       upcoming: launchDoc.upcoming,
       success: launchDoc.success,
       customers,

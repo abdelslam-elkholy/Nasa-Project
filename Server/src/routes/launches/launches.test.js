@@ -1,13 +1,16 @@
+require("abort-controller/polyfill");
+
 const request = require("supertest");
 const app = require("../../app");
 
 const { mongoConnect, mongoDisconnect } = require("../../services/mongo");
 const { loadPlanets } = require("../../models/planets.model");
-// describe("Launches API", () => {});
+// describe("Launches API", () => {
 beforeAll(async () => {
   await mongoConnect();
   await loadPlanets();
 });
+// });
 
 describe("Test Get /Launches", () => {
   test("It Should response with 200 success", async () => {
